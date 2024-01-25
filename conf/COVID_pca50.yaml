@@ -1,0 +1,27 @@
+_target_: grinch.GRPipeline.Config
+
+data_readpath: data/COVID_gse212041.h5ad
+data_writepath: data/COVID_gse212041_pca20.h5ad
+
+processors:
+  - _target_: grinch.VarianceFilter.Config
+    min_var: 1
+  - _target_: grinch.PCA.Config
+    n_components: 50
+  - _target_: grinch.UMAP.Config
+  - _target_: grinch.FuzzySimplicialSetGraph.Config
+    n_neighbors: 20
+  - _target_: grinch.Leiden.Config
+    resolution: 1
+  - _target_: grinch.KSTest.Config
+    group_key: obs.leiden
+    base: 2
+    control_key: varm.healthy
+  - _target_: grinch.GSEAPrerank.Config
+    gene_sets: HuBMAP_ASCTplusB_augmented_2022
+    read_key: uns.kstest
+    write_key: uns.gsea_hubmap
+  - _target_: grinch.GSEAPrerank.Config
+    gene_sets: GO_Biological_Process_2023
+    read_key: uns.kstest
+    write_key: uns.gsea_go

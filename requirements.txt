@@ -1,0 +1,10 @@
+numpy
+pyomo
+anndata
+matplotlib
+networkx
+pandas
+seaborn
+grinch
+scikit-learn
+scipy
