@@ -4,7 +4,7 @@ library(anndata)
 library(RCurl)
 
 # Pick dataset
-adata <- read_h5ad("/data/COVID_gse212041_grinch_pca50.h5ad")
+adata <- read_h5ad("/data/COVID_gse212041_pca50.h5ad")
 adata$obs['Clusters'] <- adata$obs['leiden']
 adata$obs['Timepoints'] <- adata$obs['visit']
 

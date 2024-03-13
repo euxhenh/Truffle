@@ -5,7 +5,7 @@ library(yaml)
 library(SingleCellExperiment)
 
 # Pick dataset
-adata <- read_h5ad("/data/COVID_gse212041_grinch_pca50.h5ad")
+adata <- read_h5ad("/data/COVID_gse212041_pca50.h5ad")
 obj <- SingleCellExperiment(assays=list(logcounts=t(adata$X)), metadata = adata$obs)
 
 psuper_obj <- psupertime(obj, obj@metadata$timepoint, lambdas=0.001)
