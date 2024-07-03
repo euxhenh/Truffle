@@ -5,6 +5,5 @@ matplotlib
 networkx
 pandas
 seaborn
-grinch
 scikit-learn
 scipy
