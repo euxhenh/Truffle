@@ -10,12 +10,15 @@ from typing import Any, Dict, List, Tuple
 import networkx as nx
 import numpy as np
 from anndata import AnnData
-from grinch.utils.ops import group_indices
+from sklearn.utils import column_or_1d
 from sklearn.utils.validation import check_consistent_length
 
 from .mc_flow import multicommodity_flow
 from .utils.path_utils import (
-    get_full_trajectories, get_trajectories, pair_counter, pair_mat
+    get_full_trajectories,
+    get_trajectories,
+    pair_counter,
+    pair_mat,
 )
 
 logger = logging.getLogger(__name__)
@@ -374,3 +377,50 @@ class Truffle:
         obj = cls(max_path_len=state_dict['max_path_len'])
         obj.load_state_dict(state_dict)
         return obj
+
+
+def group_indices(x, as_mask=False):
+    """Returns an index array pointing to unique elements in x.
+
+    Parameters
+    __________
+    x: array-like
+    as_mask: bool
+        If True, will return masks where the indices point to the elements
+        inside the group.
+
+    Returns
+    _______
+    (unique_items, group_indices): (ndarray, List[ndarray])
+        The first element contains an array of the unique elements and the
+        second contains a list of arrays.
+
+    Examples
+    ________
+    >>> group_indices([1, 4, 3, 2, 1, 2, 3, 3, 4])
+    (array([1, 2, 3, 4]), [array([0, 4]), array([3, 5]), array([2, 6, 7]), array([1, 8])])
+    >>> group_indices([1, 1, 1])
+    (array([1]), [array([0, 1, 2])])
+    >>> group_indices([1, 4, 2, 2, 1], as_mask=True)[1][0].astype(int)
+    array([1, 0, 0, 0, 1])
+    >>> group_indices([1, 4, 2, 2, 1], as_mask=True)[1][1].astype(int)
+    array([0, 0, 1, 1, 0])
+    >>> group_indices([1, 4, 2, 2, 1], as_mask=True)[1][2].astype(int)
+    array([0, 1, 0, 0, 0])
+    """
+    x = column_or_1d(x)
+    if x.size == 0:
+        raise ValueError("Encountered 0-sized array.")
+    argidx = np.argsort(x, kind='stable')
+    sorted_x = x[argidx]
+    unique_items, first_indices = np.unique(sorted_x, return_index=True)
+    groups = np.split(argidx, first_indices[1:])
+    assert len(unique_items) == len(groups)
+
+    if as_mask:
+        _groups = [np.zeros(len(x), dtype=bool) for _ in range(len(groups))]
+        for group, _group in zip(groups, _groups):
+            _group[group] = True
+        groups = _groups
+
+    return unique_items, groups

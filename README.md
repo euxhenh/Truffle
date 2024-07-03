@@ -9,15 +9,6 @@ Place these files inside the `data` folder. To reduce and cluster the data,
 we used the [`grinch`](https://github.com/euxhenh/grinch) library. The
 config files used for `grinch` can be found in the `conf` folder.
 
-To run the code in this repository, `grinch` needs to be installed as
-follows:
-
-```bash
-git clone https://github.com/euxhenh/grinch
-cd grinch
-pip install -e .
-```
-
 To run Truffle, see the notebook `notebooks/multi-commodity_flow.ipynb`.
 
 ### Code overview
