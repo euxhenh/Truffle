@@ -32,8 +32,8 @@ def multicommodity_flow(
 
     Parameters
     __________
-    commodity_allowed_paths: List[List[int]]
-        A list of paths that a commodity can travel through. Useful to
+    commodity_allowed_paths: Dict[Hashable, List[Tuple[int, int]]]
+        A dict of paths that a commodity can travel through. Useful to
         speed up solvers if the problem is too large. If None, will assume
         all edges are allowed and will initialize as edge_index.
     """
