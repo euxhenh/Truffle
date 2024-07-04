@@ -3,7 +3,7 @@
 This repository contains the source code for **Truffle** (Trajectory
 Inference via Multi-commodity Flow with Node Constraints).
 
-Publication: [Bioinformatics](https://academic.oup.com/bioinformatics/article/40/Supplement_1/i151/7700864?login=true)
+Publication: [Bioinformatics (ISMB 2024 Proceedings)](https://academic.oup.com/bioinformatics/article/40/Supplement_1/i151/7700864?login=true)
 
 Processed and clustered data can be downloaded from [Google
 Drive](https://drive.google.com/drive/folders/1WteYg1AXpsx_T7hfr5HKeCqQ23dCW88i?usp=share_link).
